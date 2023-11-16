@@ -3,7 +3,7 @@ import styles from '../../../styles/navbar/Navbar.module.scss';
 const Navbar =() =>{
     return(
         <div className={styles.navbar}>
-            <Image src='/navbarIcon.png' alt='icon' width={300} height={120} ></Image>
+            <Image className={styles.icon} src='/navbarIcon.png' alt='icon' width={300} height={120} ></Image>
         </div>
     )
 }
