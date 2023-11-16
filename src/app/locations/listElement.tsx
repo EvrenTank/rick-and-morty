@@ -22,7 +22,7 @@ const ListElement = ({name,type,dimension,residents}:{
                 <div><p>{residents.length}</p></div>
             </div>
             <div className={styles.rightDiv}>
-                <Link href='/'><NavigateNextIcon className={styles.navigateIcon}/></Link>
+                <Link href={`/locations/${name}`}><NavigateNextIcon className={styles.navigateIcon}/></Link>
             </div>
         </div>
     )

@@ -1,3 +1,7 @@
+.mainDiv{
+    width: 100%;
+    display:flex;
+    flex-direction:column;
 .listContainerDiv{
     width: 100%;
     display: grid;
@@ -5,13 +9,23 @@
     gap: 40px;
     padding: 20px;
 }
+.paginationDiv{
+    display:flex;
+    justify-content:center;
+    
+}
+}
 @media screen and (max-width: 1536px) {
+    .mainDiv{
     .listContainerDiv{
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+}
 @media screen and (max-width: 768px) {
+    .mainDiv{
     .listContainerDiv{
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
+}
 }
