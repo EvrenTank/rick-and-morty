@@ -13,6 +13,7 @@ const List = () => {
 
     const handleChange = (event:React.ChangeEvent<unknown>|null,newPage:number) => {
         setPage(newPage);
+        console.log("page"+page)
     }
 
     useEffect(()=>{
