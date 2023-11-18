@@ -70,7 +70,7 @@ const CharactersContainer = ({location}:any) => {
         {
             characters.slice(page*6-6,page*6).map((character:any,index:number)=>{
                 return (
-                    <CharacterComponent index={index} character={character}></CharacterComponent>
+                    <CharacterComponent key={index} index={index} character={character}></CharacterComponent>
                 )
             })
         }

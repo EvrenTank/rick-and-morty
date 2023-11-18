@@ -7,22 +7,29 @@ import {useState} from "react";
 
 const CharacterContainerMobile = ({characters}:any) => {
     const [translation, setTranslation] = useState(0); 
+    const [characternumber,setCharacternumber] = useState(1);
     const leftClick = () => {
         if(translation != 0){
             setTranslation(translation => translation+300);
+            setCharacternumber(characternumber => characternumber-1);
         }
     }
 
     const rightClick = () => {
         if(translation != (characters.length-1)*-300){
             setTranslation(translation => translation-300);
+            setCharacternumber(characternumber => characternumber+1);
         }
     }
     
     return (
         <div className={styles.containerDiv} >
             <div className={styles.sliderDiv}>
-                <NavigateBeforeIcon className={styles.beforeIcon} onClick={leftClick}/>
+                <NavigateBeforeIcon className={styles.beforeIcon} onClick={leftClick}
+                style={{
+                    visibility : characternumber == 1 ? 'hidden' : 'visible',
+                }}
+                />
                 <div className={styles.componentDiv} style={{
                     transform: `translateX(${translation}px)`,
                     transitionDuration:'1s',
@@ -30,12 +37,15 @@ const CharacterContainerMobile = ({characters}:any) => {
                   {
                     characters.map((character:any,index:number) => {
                         return (
-                            <CharacterComponent character={character} index={index}/>
+                            <CharacterComponent key={index} character={character} index={index}/>
                         )
                     })
                   }
                 </div>
-                <NavigateNextIcon className={styles.nextIcon} onClick={rightClick}/>
+                <NavigateNextIcon className={styles.nextIcon} onClick={rightClick}
+                                style={{
+                                    visibility : characternumber == characters.length ? 'hidden' : 'visible',
+                                }}/>
             </div>
 
         </div>
