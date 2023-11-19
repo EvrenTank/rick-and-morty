@@ -2,7 +2,16 @@
     width: 100%;
     display:flex;
     flex-direction:column;
+    .titlesDiv{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .favorite{
+            text-decoration: underline;
+        }
 
+    }
     .filterDiv{
         width: 100%;
         padding:40px;

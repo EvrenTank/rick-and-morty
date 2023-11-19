@@ -1,18 +1,17 @@
-'use client'
+'use client';
 import {useState,useEffect} from "react";
 import axios from "axios";
 import styles from "../../../styles/characters/CharactersContainer.module.scss";
 import CharacterComponent from "./characterComponent";
 import Pagination from '@mui/material/Pagination';
-import CharacterStatusFilter from "./characterStatusFilter";
 import CharacterContainerMobile from "./charactersContainerMobile";
 import Link from "next/link";
-import store from "../../../reduxStore/store";
-import { Provider } from "react-redux";
-const CharactersContainer = ({location}:any) => {
-    const [filter,setFilter] = useState("null");
+import {useSelector } from "react-redux";
+const CharactersContainer = () => {
+
     const [translation, setTranslation] = useState(0); 
     const [characternumber,setCharacternumber] = useState(1);
+    const favorites = useSelector((state:any)=>state.favoritesReducer);
 
     const [characterDetails,setCharacterDetails] = useState({
         image:"",
@@ -32,23 +31,13 @@ const CharactersContainer = ({location}:any) => {
     
             try {
                 const response = await axios.get("https://rickandmortyapi.com/api/location");
-    
-                const filteredCharactersUrl = response.data.results
-                    .filter((loc: any) => loc.name === decodeURIComponent(location))[0]
-                    .residents;
-    
+
                 // Use Promise.all to wait for all requests to complete
                 await Promise.all(
-                    filteredCharactersUrl.map(async (characterurl: any) => {
-                        const characterResponse = await axios.get(characterurl);
-                        
-                        if (filter !== "null") {
-                            if (filter === characterResponse.data.status) {
-                                characterList.push(characterResponse.data);
-                            }
-                        } else {
+                    favorites.favoriteId.map(async (id:number) => {
+                        const characterResponse = await axios.get(`https://rickandmortyapi.com/api/character/${id}`);
                             characterList.push(characterResponse.data);
-                        }
+                        
                     })
                 );
     
@@ -59,21 +48,11 @@ const CharactersContainer = ({location}:any) => {
         };
     
         fetchData();
-    }, [filter]);
+    }, []);
     return (
-        <Provider store={store}>
 <div className={styles.mainDiv}>
     <div className={styles.filterDiv}>
-        <div className={styles.titlesDiv}>
-            <h2>Filter by status</h2>
-            <Link href="/my-favorites"><h2 className={styles.favorite}>My Favorites</h2></Link>
-        </div>
-        <div className={styles.filterOptions}>
-            <CharacterStatusFilter status={"Alive"} filter={filter} setFilter={setFilter} setPage={setPage} setTranslation={setTranslation} setCharacternumber={setCharacternumber} />
-            <CharacterStatusFilter status={"Dead"} filter={filter} setFilter={setFilter} setPage={setPage} setTranslation={setTranslation} setCharacternumber={setCharacternumber}/>
-            <CharacterStatusFilter status={"unknown"} filter={filter} setFilter={setFilter} setPage={setPage} setTranslation={setTranslation} setCharacternumber={setCharacternumber}/>
 
-        </div>
     </div>
     <div className={styles.charactersContainerDiv}>
         {
@@ -89,7 +68,6 @@ const CharactersContainer = ({location}:any) => {
     <Pagination count={Math.ceil(characters.length/6)} page={page} onChange={handleChange} color="primary"/>
     </div>
         </div>
-        </Provider>
     )
 }
 export default CharactersContainer;

@@ -1,20 +1,20 @@
 'use client';
-import styles from "../../../styles/characters/CharacterComponent.module.scss";
+import styles from "../../../styles/character-details/CharacterDetailsComponent.module.scss";
 import axios from "axios";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useState,useEffect } from "react";
 import {useDispatch,useSelector } from 'react-redux';
 import {addFavorites } from '../../../reduxStore/slice.ts';
-import NavigateNext from "@mui/icons-material/NavigateNext";
-import Link from "next/link";
 
-const CharacterComponent = ({index,character}:any) => {
 
+const CharacterDetailsComponent = ({character}:any) => {
+    
     const favorites = useSelector((state:any)=>state.favoritesReducer);
+    console.log("favorites", favorites);
     const dispatch = useDispatch();
 
     return (
-        <div key={index} className={styles.containerDiv}>
+        <div className={styles.containerDiv}>
             <div className={styles.imageDiv} style={{
                 backgroundImage: `url(${character.image})`,
                 backgroundSize: "cover",
@@ -27,7 +27,9 @@ const CharacterComponent = ({index,character}:any) => {
                 onClick={
                     ()=>{
                     dispatch(addFavorites({id:character.id}));
-                }}/>               
+                }
+
+                } />               
             </div>
             <div className={styles.detailsDiv}>
                 <h2 className={styles.nameTitle} title={character.name} >{character.name}</h2>
@@ -40,11 +42,14 @@ const CharacterComponent = ({index,character}:any) => {
                     <span>{character.status}</span>-
                     <span>{character.species}</span>
                 </div>
-                <div className={styles.navigateIconDiv}>
-                    <Link href={`/locations/${character.location.name}/characters/${character.id}`}><NavigateNext className={styles.navigateIcon}/></Link>
+                <div className={styles.dimensionDiv}>
+                    <span>{character.location?.name}</span>
+                </div>
+                <div className={styles.speciesandGenderDiv}>
+                    <small >{character.species} | {character.gender}</small>
                 </div>
             </div>
         </div>
     )
 }
-export default CharacterComponent;
+export default CharacterDetailsComponent;

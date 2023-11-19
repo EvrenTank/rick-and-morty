@@ -1,9 +1,11 @@
 import styles from "../../../styles/characters/CharacterStatusFilter.module.scss";
 
 // a div component that will be used as filter options (dead,alive or unknown)
-const CharacterStatusFilter = ({status,filter,setFilter,setPage}:any) => {
+const CharacterStatusFilter = ({status,filter,setFilter,setPage,setTranslation,setCharacternumber}:any) => {
     return (
         <div className={styles.containerDiv} onClick={()=>{
+            setTranslation(0);
+            setCharacternumber(1);
             filter == "null" ? setFilter(status) : status == filter ? setFilter("null"):setFilter(status);
             console.log("filter==",filter);
             setPage(1);
